@@ -13,13 +13,17 @@ extern "C" {
 #define JUMP_CODE_CMD   0xE9
 #define JUMP_CODE_RET   0xC3
 
-typedef struct stubInfo {
+typedef struct FakeInfo {
   void *funcAddr;
   unsigned char byteCode[5];
-} stubInfo;
+} FakeInfo;
 
-extern void set_stub(void *funcAddr, void *stubAddr, stubInfo *si);
-extern void reset_stub(stubInfo *si);
+#define SET_INJECT_FAKE(original, dest, info) set_fake(original, dest, si)
+#define RESET_INJECT_FAKE(info) reset_fake(info)
+  
+
+extern void set_fake(void *funcAddr, void *FakeAddr, FakeInfo *si);
+extern void reset_fake(FakeInfo *si);
 #ifdef __cplusplus
 }
 #endif
@@ -32,9 +36,9 @@ static void set_jump_code(void *codeAddr, char jumpCode[JUMP_CODE_MAX]) {
   memcpy(codeAddr, jumpCode, JUMP_CODE_MAX);
 }
 
-void set_stub(void *funcAddr, void *stubAddr, stubInfo *si) {
+void set_fake(void *funcAddr, void *FakeAddr, FakeInfo *si) {
     char jumpCode[JUMP_CODE_MAX] = {JUMP_CODE_CMD};
-    int  dist = stubAddr - funcAddr - 5;
+    int  dist = FakeAddr - funcAddr - 5;
 
     memcpy((void *)&jumpCode[1], (void *)&dist, sizeof(void *));
     si->funcAddr = funcAddr;
@@ -43,7 +47,7 @@ void set_stub(void *funcAddr, void *stubAddr, stubInfo *si) {
     set_jump_code(funcAddr, jumpCode);
 }
 
-void reset_stub(stubInfo *si)
+void reset_fake(FakeInfo *si)
 {
     char   jumpCode[JUMP_CODE_MAX];
     memcpy((void *)&jumpCode, (void *)&si->byteCode[0], JUMP_CODE_MAX);
