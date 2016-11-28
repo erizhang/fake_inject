@@ -18,15 +18,15 @@ typedef struct FakeInfo {
   unsigned char byteCode[5];
 } FakeInfo;
 
-#define SET_INJECT_FAKE(original, dest, info) set_fake((void*)original, (void*)dest, info)
-#define RESET_INJECT_FAKE(info) reset_fake(info)
+#define SET_INJECT_FAKE(FUNCNAME, FAKENAME) \
+	FakeInfo FUNCNAME##_info;  \
+	set_fake((void*)FUNCNAME, (void *)FAKENAME, &(FUNCNAME##_info));
+#define RESET_INJECT_FAKE(FUNCNAME)\
+	reset_fake(&FUNCNAME##_info);
   
 
 extern void set_fake(void *funcAddr, void *FakeAddr, FakeInfo *si);
 extern void reset_fake(FakeInfo *si);
-#ifdef __cplusplus
-}
-#endif
 
 static void set_jump_code(void *codeAddr, char jumpCode[JUMP_CODE_MAX]) {
   int pagesize = sysconf(_SC_PAGE_SIZE);
@@ -38,7 +38,7 @@ static void set_jump_code(void *codeAddr, char jumpCode[JUMP_CODE_MAX]) {
 
 void set_fake(void *funcAddr, void *FakeAddr, FakeInfo *si) {
     char jumpCode[JUMP_CODE_MAX] = {JUMP_CODE_CMD};
-    int  dist = (unsigned long)FakeAddr - (unsigned long)funcAddr - 5;
+    unsigned long  dist = (unsigned long)FakeAddr - (unsigned long)funcAddr - 5;
 
     memcpy((void *)&jumpCode[1], (void *)&dist, sizeof(void *));
     si->funcAddr = funcAddr;
@@ -53,5 +53,10 @@ void reset_fake(FakeInfo *si)
     memcpy((void *)&jumpCode, (void *)&si->byteCode[0], JUMP_CODE_MAX);
     set_jump_code(si->funcAddr, jumpCode);
 }
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /* __FAKE_INJECT_H__ */
