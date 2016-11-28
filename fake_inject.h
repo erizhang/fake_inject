@@ -18,7 +18,7 @@ typedef struct FakeInfo {
   unsigned char byteCode[5];
 } FakeInfo;
 
-#define SET_INJECT_FAKE(original, dest, info) set_fake(original, dest, si)
+#define SET_INJECT_FAKE(original, dest, info) set_fake((void*)original, (void*)dest, info)
 #define RESET_INJECT_FAKE(info) reset_fake(info)
   
 
@@ -38,7 +38,7 @@ static void set_jump_code(void *codeAddr, char jumpCode[JUMP_CODE_MAX]) {
 
 void set_fake(void *funcAddr, void *FakeAddr, FakeInfo *si) {
     char jumpCode[JUMP_CODE_MAX] = {JUMP_CODE_CMD};
-    int  dist = FakeAddr - funcAddr - 5;
+    int  dist = (unsigned long)FakeAddr - (unsigned long)funcAddr - 5;
 
     memcpy((void *)&jumpCode[1], (void *)&dist, sizeof(void *));
     si->funcAddr = funcAddr;
