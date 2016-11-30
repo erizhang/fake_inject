@@ -51,9 +51,9 @@ So basic replace the `dice_point` with `dice_point_fake` is:
 TEST(DiceTest, GivenDiceWhenPointBiggerThanThreeShallWin)
 {
 	set_points(3 + 1);
-	SET_INJECT_FAKE(dice_point, dice_point_fake);
+	SET_FAKE_INJECT(dice_point, dice_point_fake);
 	CHECK_EQUAL(1, isWin());
-	RESET_INJECT_FAKE(dice_point);
+	RESET_FAKE_INJECT(dice_point);
 }
 ```
 
@@ -65,13 +65,13 @@ TEST(DiceTest, GivenDiceWhenPointBiggerThanThreeShallWin)
         <th>Example</th>
     </tr>
     <tr>
-        <td>SET_INJECT_FAKE(function_name, fake_name);</td>
-        <td>Use fake function call replace original real function call.</td>
-        <td>SET_INJECT_FAKE(dice_point, dice_point_fake);</td>
+        <td>SET_FAKE_INJECT(function_name, fake_name);</td>
+        <td>Use fake function replace original function.</td>
+        <td>SET_FAKE_INJECT(dice_point, dice_point_fake);</td>
     </tr>
     <tr>
-        <td>RESET_INJECT_FAKE(function_name);</td>
+        <td>RESET_FAKE_INJECT(function_name);</td>
         <td>Reset the fake function to original real function.</td>
-        <td>RESET_INJECT_FAKE(dice_point);</td>
+        <td>RESET_FAKE_INJECT(dice_point);</td>
     </tr>
 </table>

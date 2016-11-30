@@ -18,10 +18,10 @@ typedef struct FakeInfo {
   unsigned char byteCode[5];
 } FakeInfo;
 
-#define SET_INJECT_FAKE(FUNCNAME, FAKENAME) \
+#define SET_FAKE_INJECT(FUNCNAME, FAKENAME) \
 	FakeInfo FUNCNAME##_info;  \
 	set_fake((void*)FUNCNAME, (void *)FAKENAME, &(FUNCNAME##_info));
-#define RESET_INJECT_FAKE(FUNCNAME)\
+#define RESET_FAKE_INJECT(FUNCNAME)\
 	reset_fake(&FUNCNAME##_info);
   
 
