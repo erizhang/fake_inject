@@ -42,4 +42,4 @@ global:
 
 
 script:
- - "travis_ci_build.sh"
+ - "../travis_ci_build.sh"
