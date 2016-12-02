@@ -4,7 +4,7 @@
 
 #include <sys/mman.h>
 #include <unistd.h>
-
+#include <string.h>
 #ifdef __cplusplus
 extern "C" {
 #endif

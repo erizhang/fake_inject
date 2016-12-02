@@ -11,11 +11,13 @@ CPPUTEST:=../external/cpputest
 CPPUTEST_INCLUDE:=$(CPPUTEST)/include
 CPPUTEST_LIB:=$(CPPUTEST)/cpputest_build/lib
 
+FAKE_INJECT_INCLUDE:=../
+
 C_SRCS:=$(foreach d, $(SRC_DIRS), $(wildcard $d/*.c))
 CXX_SRCS:=$(foreach d,$(SRC_DIRS), $(wildcard $d/*.cpp))
 C_OBJS:=$(C_SRCS:.c=.o)
 CXX_OBJS:=$(CXX_SRCS:.cpp=.o)
-FLAGS:=-I$(CPPUTEST_INCLUDE) -I src -I .
+FLAGS:=-I$(CPPUTEST_INCLUDE) -I src -I . -I$(FAKE_INJECT_INCLUDE)
 LDFLAGS:=-L$(CPPUTEST_LIB) -lCppUTest -lstdc++ -lm
 
 $(TARGET) : $(CXX_OBJS) $(C_OBJS)
