@@ -21,7 +21,7 @@ int dice_point()
 	return r;
 }
 
-int isWin()
+int isWon()
 {
 	int points = dice_point();
 	if (points > 3){
@@ -30,16 +30,24 @@ int isWin()
 	return FALSE;
 }
 ```
-If you would like to test the function `isWin()`, but it depends on the function `dice_point()` which will generate the random number, it's hard to be tested. There is a way to write a fake function of `dice_point()` which is called `dice_point_fake()`
+If you would like to test the function `isWon()`, but it depends on the function `dice_point()` which will generate the random number, it's hard to be tested. There is a way to write a fake function of `dice_point()` which is called `dice_point_fake()`
 ```C
-int g_points;
+
+static int closed_share_point(bool write, int value)
+{
+    static int saved_value;
+    if (write) return saved_value;
+    return saved_value = value;
+}
+
 void set_points(int points)
 {
-    g_points = points;
+    closed_share_point(true, points);
 }
+
 int dice_point_fake()
 {
-    return g_points;
+    return closed_share_pont(false, 0);
 }
 ```
 
@@ -52,7 +60,7 @@ TEST(DiceTest, GivenDiceWhenPointBiggerThanThreeShallWin)
 {
 	set_points(3 + 1);
 	SET_FAKE_INJECT(dice_point, dice_point_fake);
-	CHECK_EQUAL(1, isWin());
+	CHECK_EQUAL(1, isWon());
 	RESET_FAKE_INJECT(dice_point);
 }
 ```
