@@ -1,5 +1,6 @@
 #Fake Inject
 -----------------------------
+[![Build Status](https://travis-ci.org/erizhang/fake_inject.svg?branch=master)](https://travis-ci.org/erizhang/fake_inject)
 
 ## A Fake Function Inject Assistant for C
 Fake inject is a assistant tool for the fake function replacement during unit test. So that it can be easier to replace the dependancy with test double.
