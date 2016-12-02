@@ -1,10 +1,14 @@
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(FirstTestGroup)
+extern "C" {
+#include "game.h"
+}
+
+TEST_GROUP(GameTestGroup)
 {
 };
 
-TEST(FirstTestGroup, FirstTest)
+TEST(GameTestGroup, FirstTest)
 {
    FAIL("Fail me!");
 }

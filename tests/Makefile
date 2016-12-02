@@ -5,7 +5,7 @@ TARGET:= fake_ut
 all : $(TARGET)
 	./$(TARGET)
 
-SRC_DIRS:=.
+SRC_DIRS:=. sample/
 
 CPPUTEST:=../external/cpputest
 CPPUTEST_INCLUDE:=$(CPPUTEST)/include
