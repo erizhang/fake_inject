@@ -42,12 +42,12 @@ static int closed_share_point(bool write, int value)
 
 void set_points(int points)
 {
-    closed_share_point(true, points);
+    closed_share_point(false, points);
 }
 
 int dice_point_fake()
 {
-    return closed_share_pont(false, 0);
+    return closed_share_pont(true, 0);
 }
 ```
 
