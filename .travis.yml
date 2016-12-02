@@ -1,0 +1,45 @@
+language: c
+sudo: false
+matrix:
+    include:
+    - compiler: clang
+      env: BUILD=autotools
+      addons:
+        apt:
+          packages:
+          - valgrind
+    - compiler: clang
+      env: BUILD=cmake
+    - compiler: clang
+      env: BUILD=autotools_gtest
+    - compiler: clang
+      env: BUILD=cmake_gtest
+    - compiler: gcc
+      env: BUILD=autotools
+      addons:
+        apt:
+          packages:
+          - valgrind
+    - compiler: gcc
+      env: BUILD=cmake
+    - compiler: gcc
+      env: BUILD=autotools_gtest
+    - compiler: gcc
+      env: BUILD=cmake_gtest
+    - compiler: gcc
+      env: BUILD=cmake_coverage
+    - compiler: gcc
+      env: BUILD=test_report
+    - compiler: wcl
+      env: BUILD=make_dos
+      addons:
+        apt:
+          packages:
+          - dosbox
+
+global:
+ - os: linux
+
+
+script:
+ - "travis_ci_build.sh"
